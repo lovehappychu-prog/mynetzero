@@ -2,6 +2,7 @@ import streamlit as st
 import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
+import requests
 
 # =========================
 # NATION DATA
@@ -158,6 +159,83 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# =========================
+# ABOUT GNPA
+# =========================
+
+with st.expander("ABOUT GNPA"):
+    st.markdown(
+        """
+**Global Nature & Plant-based Diet Shift Agency (GNPA)**
+
+GNPA is a research-focused initiative exploring the relationship between
+food systems, nature restoration, climate change and the pathway to Net Zero.
+
+**MY NET ZERO** translates this research into an interactive platform,
+allowing individuals, nations and global audiences to explore how dietary
+change and nature restoration may influence climate outcomes.
+
+The platform is designed to connect scientific research with public
+understanding and policy discussion.
+        """
+    )
+
+# =========================
+# CONTACT / ASK A QUESTION
+# =========================
+
+with st.expander("CONTACT / ASK A QUESTION"):
+
+    with st.form("contact_form"):
+
+        contact_name = st.text_input("Name")
+        contact_organization = st.text_input("Organization")
+        contact_country = st.text_input("Country")
+        contact_email = st.text_input("Email")
+        contact_message = st.text_area("Question / Message")
+
+        contact_submit = st.form_submit_button("SUBMIT")
+
+    if contact_submit:
+
+        if not contact_name or not contact_email or not contact_message:
+            st.warning(
+                "Please complete your name, email, and question/message."
+            )
+
+        else:
+            form_data = {
+                "name": contact_name,
+                "organization": contact_organization,
+                "country": contact_country,
+                "email": contact_email,
+                "message": contact_message
+            }
+
+            try:
+                response = requests.post(
+                    "https://formspree.io/f/xeaobwry",
+                    data=form_data,
+                    timeout=10
+                )
+
+                if response.ok:
+                    st.success(
+                        "Thank you. Your message has been sent successfully."
+                    )
+                else:
+                    st.error(
+                        "Your message could not be sent. Please try again."
+                    )
+
+            except requests.RequestException:
+                st.error(
+                    "Your message could not be sent. Please try again."
+                )
+
+    st.caption(
+        "Your information will be used only to respond to your inquiry."
+    )
 
 # =========================
 # MY NET ZERO
@@ -564,6 +642,60 @@ if st.session_state.show_nation:
      
     co2_impact = selected_row["Cow's CO2  impact "]
     gdp_impact = selected_row["COW's GDP impacts"]
+
+  
+    # =========================
+    # NET ZERO SCORE
+    # =========================
+
+    ghg_net_zero = selected_row["Net Zero Score --GHG-IPCC"]
+    my_net_zero = selected_row["MY NZ Research Model Outome"]
+
+    st.markdown(
+        '<div style="font-size:20px; font-weight:800; color:#2F765D; '
+        'letter-spacing:2px; margin-top:40px; margin-bottom:18px;">'
+        'NET ZERO SCORE'
+        '</div>',
+        unsafe_allow_html=True
+    )
+
+    with st.container(border=True):
+
+        score1, score2 = st.columns(2)
+
+        with score1:
+            st.markdown(
+                '<div style="font-size:14px; font-weight:700; color:#2F765D; '
+                'letter-spacing:2px;">GHG — IPCC MODEL</div>',
+                unsafe_allow_html=True
+            )
+            st.markdown(
+                f'<div style="font-size:30px; font-weight:700; color:#123047; '
+                f'margin-top:18px; margin-bottom:18px;">{ghg_net_zero}</div>',
+                unsafe_allow_html=True
+            )
+
+        with score2:
+            st.markdown(
+                '<div style="font-size:14px; font-weight:700; color:#2F765D; '
+                'letter-spacing:2px;">MY NET ZERO RESEARCH MODEL</div>',
+                unsafe_allow_html=True
+            )
+            st.markdown(
+                f'<div style="font-size:30px; font-weight:700; color:#123047; '
+                f'margin-top:18px; margin-bottom:18px;">{my_net_zero}</div>',
+                unsafe_allow_html=True
+            )
+
+    st.markdown(
+        '<div style="height:35px;"></div>',
+        unsafe_allow_html=True
+    )
+
+
+
+
+
 
     result1, result2 = st.columns(2)
 
