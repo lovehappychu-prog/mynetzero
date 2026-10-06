@@ -425,7 +425,18 @@ if st.session_state.show_for_me:
         unsafe_allow_html=True
     )
     
-
+    st.markdown(
+        '<div style="font-size:14px; line-height:1.6; color:#68757D; '
+        'max-width:760px; margin-top:-15px; margin-bottom:25px;">'
+        '<b>ABOUT THIS INDEX</b><br>'
+        'MY NET ZERO INDEX is a standardized research indicator based on an '
+        '<b>Earth-system accounting framework</b>. Unlike conventional carbon-footprint '
+        'approaches that focus primarily on anthropogenic emissions, this model also '
+        'accounts for the loss and recovery of natural CO₂-removal capacity across '
+        'forests, land and oceans.'
+        '</div>',
+        unsafe_allow_html=True
+    )
     personal1, personal2 = st.columns(2)
 
     with personal1:
@@ -468,6 +479,37 @@ if st.session_state.show_for_me:
         unsafe_allow_html=True
     )
 
+    with st.expander("HOW IS THE INDEX CALCULATED?"):
+        st.markdown(
+            """
+The **MY NET ZERO INDEX** is a standardized research indicator.  
+It is not a conventional personal carbon-footprint calculator.
+
+**EVERYDAY LIFE = 2**  
+Energy, transport, cooking and appliances represent approximately **20%**
+of the standardized climate burden in this research model.
+
+**FOOD & NATURE = 8**  
+The remaining **80%** represents the research model's attribution of
+livestock-related climate burden, including food-system energy use,
+land pressure and the loss of natural CO₂-removal capacity.
+
+**ANIMAL-BASED DIET**
+
+**2 + 8 = 10**
+
+The animal-based baseline therefore produces a MY NET ZERO INDEX of **10**.
+
+**PLANT-BASED DIET**
+
+**2 − 8 = −6**
+
+In the model, dietary transition reduces livestock-related pressure and
+allows natural carbon sinks to recover. The negative value represents
+the contribution of restored natural CO₂ removal to the Earth-system
+balance — not a claim that an individual directly produces negative emissions.
+            """
+        )
     st.markdown(
         '<div style="color:#2F765D; font-size:15px; font-weight:700; '
         'letter-spacing:2px;">YOUR DIET</div>',
@@ -826,6 +868,22 @@ st.markdown(
 # =========================
 # NET ZERO FORMULAS
 # =========================
+
+st.markdown(
+    """
+### TWO WAYS OF ACCOUNTING FOR NET ZERO
+
+**Conventional Net Zero** primarily asks how much anthropogenic emissions
+must be reduced or removed to balance human-caused emissions.
+
+**MY NET ZERO** expands the accounting boundary to the Earth system:
+it also asks how much natural CO₂-removal capacity can be restored when
+pressure on forests, land and oceans is reduced.
+
+The difference is not simply another emissions estimate — it is a
+different accounting boundary.
+    """
+)
 col1, col2 = st.columns(2)
 
 with col1:
@@ -1254,6 +1312,37 @@ U.S. · China · Global climate policy · Nature restoration
     st.caption(
         "Detailed methodology, calculations, sensitivity analyses and "
         "underlying data are documented in the full research."
+    )
+
+# =========================
+# RESEARCH BRIEF
+# =========================
+
+st.markdown(
+    """
+### RESEARCH BRIEF
+
+**Earth-System Accounting for Net Zero**
+
+A one-page summary of the MY NET ZERO research framework, including the
+accounting boundary, climate burden attribution, and the pathway from
+dietary transition to restored natural CO₂-removal capacity.
+    """
+)
+
+with st.expander("VIEW RESEARCH BRIEF"):
+    st.image(
+        "research_brief.png",
+        use_container_width=True
+    )
+
+with open("Net_Zero_Research_Summary_QR_FIXED.pdf", "rb") as pdf_file:
+    st.download_button(
+        label="DOWNLOAD RESEARCH BRIEF (PDF)",
+        data=pdf_file,
+        file_name="MY_NET_ZERO_Research_Brief.pdf",
+        mime="application/pdf",
+        use_container_width=True
     )
 
 
